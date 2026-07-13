@@ -1,0 +1,146 @@
+# 🚀 Prompt Optimizer
+
+Aplikacja Streamlit do analizy i optymalizacji promptów dla AI. Identyfikuje dwuznaczności, niesprecyzowane kwestie oraz proponuje ulepszone wersje tekstów.
+
+## ✨ Funkcjonalności
+
+- **Analiza promptów** - identyfikacja problemów z precyzją i jednoznacznością
+- **Wykrywanie dwuznaczności** - fragmenty tekstu które można interpretować na wiele sposobów
+- **Wychwytywanie niesprecyzowań** - brakujące parametry i niejasne kryteria
+- **Propozycje ulepszeń** - sugerowana wersja tekstu wolna od problemów
+- **Liczenie tokenów** - widok na koszt i zdatność promptu
+- **Optymalizacja kosztów** - domyślnie używa najtańszego modelu (gpt-4o-mini)
+
+## 📋 Wymagania
+
+- Python 3.8+
+- `uv` (Python package manager)
+- OpenAI API key
+
+## 🚀 Instalacja
+
+1. **Sklonuj repozytorium:**
+```bash
+git clone <repo-url>
+cd tokencount
+```
+
+2. **Zainstaluj zależności:**
+```bash
+uv sync
+```
+
+3. **Stwórz plik `.env`:**
+```bash
+cp .env.example .env
+```
+
+4. **Dodaj swój OpenAI API key do `.env`:**
+```env
+OPENAI_API_KEY=sk-your-key-here
+```
+
+## ▶️ Uruchomienie
+
+```bash
+streamlit run app.py
+```
+
+Aplikacja otworzy się w przeglądarce na `http://localhost:8501`
+
+## 📁 Struktura projektu
+
+```
+tokencount/
+├── app.py                          # Główna aplikacja Streamlit
+├── models/
+│   ├── __init__.py
+│   └── ai_prompt_enchancer.py     # Klasa do analizy promptów
+├── prompts/
+│   ├── __init__.py
+│   └── prompts.py                  # Prompt systemowy do analizy
+├── .env                            # Zmienne środowiskowe (NIE COMMITOWAĆ!)
+├── .env.example                    # Szablon dla .env
+├── .gitignore
+├── pyproject.toml
+└── README.md
+```
+
+## 🔧 Konfiguracja
+
+W pliku `.env` możesz dostosować:
+
+```env
+# Obowiązkowe
+OPENAI_API_KEY=sk-your-key-here
+
+# Opcjonalne
+SELECTED_MODEL=gpt-4o-mini         # Model OpenAI (domyślnie: gpt-4o-mini)
+OPENAI_API_BASE=https://api.openai.com/v1
+```
+
+## 💡 Jak to działa
+
+1. Użytkownik wpisuje prompt w lewym panelu
+2. Kliknięcie "Check" wysyła prompt do OpenAI
+3. System prompt (`TEXT_ENHANCER`) analizuje tekst pod kątem:
+   - **Dwuznaczności** - wieloznaczne słowa, niejasne odniesienia
+   - **Niesprecyzowań** - brakujące parametry, niezdefiniowane kryteria
+4. Wynik zawiera:
+   - Listę problemów z wyjaśnieniami
+   - Podsumowanie ilości problemów
+   - Ulepszoną wersję tekstu
+5. Wyświetlane są też statystyki tokenów (wejście/wyjście/razem)
+
+## 🧪 Testowanie
+
+```bash
+streamlit run app.py
+```
+
+Spróbuj:
+```
+Napisz mi skrypt który zbiera dane. Przełącz się na inną bazę danych i wyświetl wyniki.
+```
+
+Powinieneś zobaczyć analizę problemów w tym tekście.
+
+## 📊 Modele i ceny
+
+Aplikacja domyślnie używa **gpt-4o-mini** (najtańszy model):
+- **Wejście:** $0.15/1M tokenów
+- **Wyjście:** $0.60/1M tokenów
+
+Możesz zmienić na inny model edytując `.env`:
+- `gpt-4o` - $2.50/$10.00
+- `gpt-4 Turbo` - $10.00/$30.00
+- `o1-mini` - $3.00/$12.00
+- `o1` - $15.00/$60.00
+
+## 🔒 Bezpieczeństwo
+
+- ✅ API key przechowywany w `.env` (nie w kodzie)
+- ✅ `.env` dodany do `.gitignore` (nie będzie na GitHub)
+- ✅ Użyj `.env.example` jako szablonu
+- ⚠️ **NIGDY** nie commituj `.env` z prawdziwymi kluczami!
+
+## 🚀 Deploy
+
+### Streamlit Cloud (rekomendowane)
+1. Wrzuć kod na GitHub
+2. Zaloguj się na https://streamlit.io/cloud
+3. Kliknij "New app" i wybierz repozytorium
+4. Dodaj sekrety w Settings → Secrets:
+   ```
+   OPENAI_API_KEY = sk-your-key
+   SELECTED_MODEL = gpt-4o-mini
+   ```
+5. Deploy! 🎉
+
+## 📝 Licencja
+
+MIT
+
+## 👤 Autor
+
+Filip
