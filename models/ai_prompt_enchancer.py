@@ -7,19 +7,23 @@ class AiPromptEnchancer():
         load_dotenv()
         self.llm = ChatOpenAI(model=model)
         self.sys_prompt = sys_prompt
-        
+
     def run(self, question):
         messages = [
             SystemMessage(content=self.sys_prompt),
             HumanMessage(content=question)
         ]
         response = self.llm.invoke(messages)
-        self.tokens_count(response=response)
-        return response.content
+        tokens = self.get_token_usage(response=response)
+        return {
+            "content": response.content,
+            "tokens": tokens
+        }
 
-    def tokens_count(self, response):
+    def get_token_usage(self, response):
         usage = response.response_metadata.get("token_usage", {})
-        print(f"\n--- Tokeny ---")
-        print(f"Wejście:  {usage.get('prompt_tokens', '?')}")
-        print(f"Wyjście:  {usage.get('completion_tokens', '?')}")
-        print(f"Łącznie:  {usage.get('total_tokens', '?')}")
+        return {
+            "prompt_tokens": usage.get('prompt_tokens', 0),
+            "completion_tokens": usage.get('completion_tokens', 0),
+            "total_tokens": usage.get('total_tokens', 0)
+        }
